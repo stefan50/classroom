@@ -14,10 +14,16 @@ void push(struct stack_t *stack, int elem);
 int size(struct stack_t stack);
 int top(struct stack_t);
 void pop(struct stack_t *stack);
+int is_full(struct stack_t);
+int is_empty(struct stack_t);
+void stack_resize(struct stack_t*);
+struct stack_t stack_copy(struct stack_t);
+float rpn_solve(char* rpn_exp);
 
 int main()
 {
-        struct stack_t st = stack_init(5);
+        struct stack_t st = stack_init(2);
+	push(&st,5);
         stack_destroy(&st);
         return 0;
 }
@@ -55,5 +61,49 @@ void pop(struct stack_t *stack)
         if(size(*stack) != 0) //size requires a non-pointer
         stack->top--; //We don't delete it entirely, just logically by showing the previous element
 }
-
-
+int is_full(struct stack_t stack)
+{
+	if(stack.top == stack.size) return 1;
+	else return 0;
+}
+int is_empty(struct stack_t stack)
+{
+	if(stack.top == 0) return 1;
+	else return 0;
+}
+void stack_resize(struct stack_t* stack)
+{
+	stack->size*=2;
+	stack->arr=realloc(stack->arr,sizeof(int)*(stack->size));
+}
+struct stack_t stack_copy(struct stack_t stack)
+{
+	int i;
+	struct stack_t stack_cpy;
+	stack_cpy.size = stack.size;
+	stack_cpy.top = stack.top;
+	for(i=0;i<stack_cpy.top;i++)
+		*(stack_cpy.arr+i) = *(stack.arr+i);
+	return stack_cpy;
+}
+float rpn_solve(char* rpn_exp)
+{
+	int position=0;
+	struct stack_t rpn = stack_init(10); 
+	float num,result=0;
+	for(i=0;i<6;i++)
+	{
+		if((*(rpn_exp+i) - '0')>=0 && (*(rpn_exp+i) - '0')<=9)
+			num = *rpn_exp - '0';
+		else if(*(rpn_exp+i) == '+')
+		{
+			result=result+(*(rpn.arr+position)+*(rpn.arr+position+1));
+			position++;
+		}
+		else if(*(rpn_exp+i) == '-')
+		{
+			result=result+(*(rpn.arr+position 
+		}
+		push(&rpn,num);
+	}
+}
