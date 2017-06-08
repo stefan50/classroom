@@ -6,7 +6,7 @@ struct stack_t
         int *arr;
         int top;
         int size;
-};
+}stack;
 
 struct stack_t stack_init(int size);
 void stack_destroy(struct stack_t* st);
@@ -22,9 +22,14 @@ float rpn_solve(char* rpn_exp);
 
 int main()
 {
-        struct stack_t st = stack_init(2);
-	push(&st,5);
-        stack_destroy(&st);
+	int i;
+	char* rpn_exp;
+	for(i=0;i<2;i++)
+	{
+		push(&stack,'2');
+	}
+	push(&stack,'+');
+	printf("%f",rpn_solve(rpn_exp));
         return 0;
 }
 
@@ -82,28 +87,41 @@ struct stack_t stack_copy(struct stack_t stack)
 	struct stack_t stack_cpy;
 	stack_cpy.size = stack.size;
 	stack_cpy.top = stack.top;
+	stack_cpy.arr = malloc(sizeof(int)*stack.size);
 	for(i=0;i<stack_cpy.top;i++)
-		*(stack_cpy.arr+i) = *(stack.arr+i);
+	{
+		*(stack_cpy.arr+i)=*(stack.arr+i);
+	}
 	return stack_cpy;
+}
+void rpn_push(struct stack_t* stack,char* rpn_exp)
+{
+	int i,size = stack->size;
+	for(i=0;i<size;i++)
+	{
+		if(*(rpn_exp+i)!=' ') push(stack,*(rpn_exp+i));
+	}
 }
 float rpn_solve(char* rpn_exp)
 {
-	int position=0;
-	struct stack_t rpn = stack_init(10); 
+	int el,i;
+	struct stack_t rpn = stack_init(10);
 	float num,result=0;
 	for(i=0;i<6;i++)
 	{
-		if((*(rpn_exp+i) - '0')>=0 && (*(rpn_exp+i) - '0')<=9)
-			num = *rpn_exp - '0';
+		if(*(rpn_exp+i)>=0 && *(rpn_exp+i)<=9)
+		{
+			push(&rpn,*(rpn_exp+i));
+		}
 		else if(*(rpn_exp+i) == '+')
 		{
-			result=result+(*(rpn.arr+position)+*(rpn.arr+position+1));
-			position++;
+			el=top(rpn);
+			pop(&rpn);
+			result+=el;
+			el=top(rpn);
+			pop(&rpn);
 		}
-		else if(*(rpn_exp+i) == '-')
-		{
-			result=result+(*(rpn.arr+position 
-		}
-		push(&rpn,num);
 	}
+	stack_destroy(&rpn);
+	return result;
 }

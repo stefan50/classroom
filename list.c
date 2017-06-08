@@ -18,7 +18,7 @@ struct node_t* init_node(int item)
         struct node_t *result = malloc(sizeof(struct node_t));
         result->data = item;
         result->next = NULL;
-        return result; 
+        return result;
 }
 void insert_list(int item,struct list_t *list);
 int remove_list(struct list_t *list)
