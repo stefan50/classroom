@@ -1,5 +1,6 @@
 #include <iostream>
-#define STACK_SIZE 10
+#include <string.h>
+#define STACK_SIZE 1
 using namespace std;
 
 class StackError 
@@ -8,9 +9,9 @@ class StackError
 public:
 	StackError(char error[20])
 	{
-		sterror_ = error;
+		strcpy(sterror_,error);
 	}
-	char get_msg()[20]
+	char* get_msg()
 	{
 		return sterror_;
 	}
@@ -39,8 +40,7 @@ public:
 	{
 		if(full())
 		{
-			cout << "OOPS! I'm full" << endl;
-			throw StackError("Stack is full.");
+			throw StackError("Full");
 		}
 		data_[top_++] = val;
 	}
@@ -48,8 +48,7 @@ public:
 	{
 		if(empty()) 
 		{
-			cout << "Fill me, Daddy" << endl;
-			throw StackError("Stack is empty.");
+			throw StackError("Empty");
 		}
 		return data_[--top_];
 	}
@@ -61,20 +60,21 @@ int main()
 	try
 	{
 		myst.push(0);
-		cout << myst.empty() << endl;		
-		cout << myst.full() << endl;
+		//cout << myst.empty() << endl;		
+		//cout << myst.full() << endl;
 		
 		for(int i=1; i<11; ++i)
 		{
 			myst.push(i);
 		}
 		
-	} catch(StackError ex) {
+	} catch(StackError& ex) {
 		cout << ex.get_msg() << endl;
 	}	
-	while(!myst.empty())
+	/*while(!myst.empty())
 	{
 		cout << "pop: " << myst.pop() << endl;
-	}
+	}*/
 	return 0;
 }
+
