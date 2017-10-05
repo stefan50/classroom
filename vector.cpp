@@ -23,6 +23,10 @@ int main()
 
 	cout << vi.at(42) << endl; //throws exception
 
+	for(vector<int>::iterator it = vi.begin(); it!=vi.end(); ++it)
+	{
+		cout << *it << endl;
+	}
 
 	return 0;
 }
