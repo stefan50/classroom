@@ -1,0 +1,18 @@
+body {
+	background-color: #000000;
+	color: #ffffff;
+}
+
+#for_centre {
+	text-align: center;
+}
+
+li {
+	display: inline;
+	text-align: center;
+}
+
+#img_c {
+	display: block;
+	margin: auto;
+}
