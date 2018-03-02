@@ -91,3 +91,7 @@ WHERE EMark >= 3.50;
  
 SELECT s.Name,s.Class,m.ExamDate,m.Mark FROM students s INNER JOIN marks m ON s.Num = m.StudentNum AND s.Class = m.StudentClass;
 ```
+Or to select only NULL:
+```sql
+WHERE m.Mark IS NULL;
+```
