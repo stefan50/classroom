@@ -29,9 +29,8 @@ int main() {
 
     int socket_id = socket(AF_INET, SOCK_RAW, IPPROTO_TCP); 
     while(1) {
-        unsigned char* buffer = (unsigned char*)malloc(65536);
-        printf("message = %d\n", recv(socket_id, buffer, sizeof buffer, 0));
-        perror("Error");
+        unsigned char* buffer = (unsigned char*)malloc(655366);
+        printf("message = %d\n", recv(socket_id, buffer, sizeof buffer, MSG_TRUNC));
         struct iphdr* iph = (struct iphdr*) buffer;
         struct sockaddr_in* source = (struct sockaddr_in*)malloc(65536);
         memset(source, 0, sizeof(&source));
@@ -40,9 +39,10 @@ int main() {
         struct tcphdr* tcph = (struct tcphdr*)(buffer + iph->ihl*4);
 
         printf("Source port = %d\n", ntohs(tcph->source));
+        printf("Destination port = %d\n", ntohs(tcph->dest));
         free(buffer);
     }
-    //pthread_join(*threads, NULL);
+    //pthread_join(threads, NULL);
     
     free(threads);
     close(socket_id);
