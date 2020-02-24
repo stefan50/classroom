@@ -45,9 +45,13 @@ isPrime n = helper n 2
             | otherwise           = helper i (div + 1)
 
 isPerfect :: Int -> Bool 
-isPerfect n 
-    | sumDigits n == n = True
-    | otherwise        = False
+isPerfect n = (n == sumDiv n 1) 
+    where 
+        sumDiv i div
+            | div == i          = 0 
+            | i `mod` div == 0  = div + sumDiv i (div + 1) 
+            | otherwise         = sumDiv i (div + 1) 
+
 
 reverseNumber :: Int -> Int 
 reverseNumber n 
@@ -66,6 +70,6 @@ main = do
     print (countOccurences 2552 0)
     print (isAscending 523)
     print (isPrime 4)
-    print (isPerfect 6)
+    print (isPerfect 7)
     print (reverseNumber 523) 
     print (isPalindrome 1233215)
